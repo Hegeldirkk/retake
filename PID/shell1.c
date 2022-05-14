@@ -4,31 +4,32 @@
 
 /**
  * main - program that prints "$ ".
- * Return: 0;
+ * Return: a;
  */
 
 int main(void)
 {
 	char *buffer;
 	size_t buflen = 32;
-	int reciev;
+	char *argv[] = {"ls", NULL};
+	char cmd[] = "/bin/ls";
 
-	buffer = malloc(buflen * sizeof(char));
+	buffer = (char *)malloc(buflen * sizeof(char));
 	if (!buffer)
 	{
 		perror("impossible d'allouer");
 	}
-	printf("#cisfun$");
-	getline(&buffer, &buflen, stdin);
-	isatty(
-	if ((reciev = access(buffer, F_OK)) != 0)
-        {
-		printf("%d\n", reciev);
-          printf("%s No such file or directory!\n", buffer);
-        }else{
-           if (access(buffer, R_OK) == 0){
-             
-           }
-        }
+	do{
+		printf("#cisfun$");
+		getline(&buffer, &buflen, stdin);
+		if (cmd[0] == *buffer)
+		{
+			execve(cmd, argv, NULL);
+		}
+		else
+		{
+			printf("./shell: No such file or directory\n");
+		}
+	}while(*buffer != EOF);
 	return (0);
 }
